@@ -26,19 +26,16 @@ function codeLineTrack(str, resourcePath) {
 }
 
 function addLineAttr(lineStr, line, resourcePath, templateIndex) {
+  if(!/^\s+</.test(lineStr)){
+    return lineStr;
+  }
   let reg = /(<[\w-]+)|(<\/template)/g;
+
   let leftTagList = lineStr.match(reg);
   if (leftTagList) {
     leftTagList = Array.from(new Set(leftTagList));
     leftTagList.forEach((item) => {
-      if (item && item.indexOf("<template") !== -1) {
-        templateIndex.index += 1;
-      }
-      if (item && item.indexOf("</template") !== -1) {
-        templateIndex.index -= 1;
-      }
-
-      if (templateIndex.index > 0 && item && item.indexOf("template") == -1) {
+      if (item && item.indexOf("template") == -1) {
         //对没有属性的标签如<div>,整个进行替换
         if (new RegExp(`${item}>`, "g").test(lineStr)) {
           let regx = new RegExp(`${item}>`, "g");
@@ -48,9 +45,14 @@ function addLineAttr(lineStr, line, resourcePath, templateIndex) {
         //对有属性的标签如<div class="test">,只替换开头的标签"<div "(包含空格，用于避免如下问题:
         //<a-b><a></a></a-b> -> <a codexx-b><a codexx></a></a-b>:当长标签字符包含短标签字符时，短标签的替换影响长标签)
         else {
-          let regx = new RegExp(`${item}\\s+`, "g");
+          const reg1 = new RegExp(`${item}\\s+`, "g");
+          const reg2 = new RegExp(`${item}$`, "g");
           let location = `${item} code-location="${resourcePath}:${line}" `;
-          lineStr = lineStr.replace(regx, location);
+          if(reg1.test(item)){
+            lineStr = lineStr.replace(reg1, location);
+          } else if(reg2.test(item)){
+            lineStr = lineStr.replace(reg2, location);
+          }
         }
       }
     });
