@@ -15,45 +15,25 @@ function sourceCodeChange(source, resourcePath) {
 function codeLineTrack(str, resourcePath) {
   let lineList = str.split("\n");
   let newList = [];
-  //template标识，用于判断代码是否在template内，限制只处理tempalte下的代码
-  let templateIndex = {
-    index: 0,
-  };
   lineList.forEach((item, index) => {
-    newList.push(addLineAttr(item, index + 1, resourcePath, templateIndex)); // 添加位置属性，index+1为具体的代码行号
+    newList.push(addLineAttr(item, index + 1, resourcePath)); // 添加位置属性，index+1为具体的代码行号
   });
   return newList.join("\n");
 }
 
-function addLineAttr(lineStr, line, resourcePath, templateIndex) {
+function addLineAttr(lineStr, line, resourcePath) {
   if(!/^\s+</.test(lineStr)){
     return lineStr;
   }
   let reg = /(<[\w-]+)|(<\/template)/g;
-
   let leftTagList = lineStr.match(reg);
   if (leftTagList) {
     leftTagList = Array.from(new Set(leftTagList));
     leftTagList.forEach((item) => {
       if (item && item.indexOf("template") == -1) {
-        //对没有属性的标签如<div>,整个进行替换
-        if (new RegExp(`${item}>`, "g").test(lineStr)) {
-          let regx = new RegExp(`${item}>`, "g");
-          let location = `${item} code-location="${resourcePath}:${line}">`;
-          lineStr = lineStr.replace(regx, location);
-        }
-        //对有属性的标签如<div class="test">,只替换开头的标签"<div "(包含空格，用于避免如下问题:
-        //<a-b><a></a></a-b> -> <a codexx-b><a codexx></a></a-b>:当长标签字符包含短标签字符时，短标签的替换影响长标签)
-        else {
-          const reg1 = new RegExp(`${item}\\s+`, "g");
-          const reg2 = new RegExp(`${item}$`, "g");
-          let location = `${item} code-location="${resourcePath}:${line}" `;
-          if(reg1.test(item)){
-            lineStr = lineStr.replace(reg1, location);
-          } else if(reg2.test(item)){
-            lineStr = lineStr.replace(reg2, location);
-          }
-        }
+        const reg = new RegExp(`${item}`);
+        let location = `${item} code-location="${resourcePath}:${line}"`;
+        lineStr = lineStr.replace(reg, location);
       }
     });
   }
