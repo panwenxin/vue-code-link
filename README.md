@@ -8,7 +8,7 @@
 ```
     引入只需如下三步
     //1、install package
-    npm install -s https://github.com/panwenxin/vue-code-link.git
+    npm i vue-code-link -s
     //2、vue.config.js
     const { vueCodeLinkServer, vueCodeLinkLoaderConfig } = require('vue-code-link')
     module.exports = {
