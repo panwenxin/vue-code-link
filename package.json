@@ -1,6 +1,6 @@
 {
-  "name": "@linzhinan/vue-code-link",
-  "version": "1.0.35",
+  "name": "vue-code-link",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -31,7 +31,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/chana1024/linzhinan-vue-code-link.git"
+    "url": "https://github.com/panwenxin/vue-code-link.git"
   },
   "devDependencies": {
     "cz-conventional-changelog": "^3.3.0",

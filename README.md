@@ -1,17 +1,16 @@
 ![Animation](https://user-images.githubusercontent.com/62974111/174468768-dcacbfaa-3565-4608-bbb3-9a1b81da4ff0.gif)
 
+# 代码fork自 https://github.com/chana1024/linzhinan-vue-code-link
 # 通过 shift+左键点击页面元素,快速在 vscode 中定位代码位置
-
-# [changelog](https://github.com/chana1024/linzhinan-vue-code-link/blob/master/CHANGELOG.md)
 
 # 引入
 
 ```
     引入只需如下三步
     //1、install package
-    npm install -s @linzhinan/vue-code-link
+    npm install -s https://github.com/panwenxin/vue-code-link.git
     //2、vue.config.js
-    const { vueCodeLinkServer, vueCodeLinkLoaderConfig } = require('@linzhinan/vue-code-link')
+    const { vueCodeLinkServer, vueCodeLinkLoaderConfig } = require('vue-code-link')
     module.exports = {
         ...
         devServer: {
@@ -27,7 +26,7 @@
         }
     }
     //3、main.js
-    import { vueCodeLinkClient } from '@linzhinan/vue-code-link'
+    import { vueCodeLinkClient } from 'vue-code-link'
     vueCodeLinkClient.init()
 ```
 
@@ -37,7 +36,7 @@
 
 ```
  //修改vue.config.js
-  const { vueCodeLinkServer,vueCodeLinkServerConfig,vueCodeLinkLoaderConfig } = require('@linzhinan/vue-code-link')
+  const { vueCodeLinkServer,vueCodeLinkServerConfig,vueCodeLinkLoaderConfig } = require('vue-code-link')
   vueCodeLinkServerConfig.setEditor("webstorm")
 ```
 
